@@ -1,1 +1,3 @@
 # struts2_security
+
+直接上传工程文件，新电脑需要下载tomcat及重新配置eclipse运行参数
